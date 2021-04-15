@@ -36,7 +36,6 @@ spec:
           tcpSocket:
             port: 8080
           timeoutSeconds: 1
-        name: msdataauth
         ports:
         - containerPort: 8080
           protocol: TCP
