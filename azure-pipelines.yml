@@ -1,21 +1,19 @@
+trigger:
+- main
+
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
 steps:
-- bash: |
-    if [ -f extensions.csproj ]
-    then
-        dotnet build extensions.csproj --output ./bin
-    fi
-    npm install 
-    npm run build --if-present
-    npm prune --production
-- task: ArchiveFiles@2
-  displayName: "Archive files"
+- task: MavenAuthenticate@0
   inputs:
-    rootFolderOrFile: "$(System.DefaultWorkingDirectory)"
-    includeRootFolder: false
-    archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
-- task: PublishBuildArtifacts@1
+    artifactsFeeds: 'maven-repo'
+
+- task: Maven@3
   inputs:
-    PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
-    artifactName: 'drop'
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    goals: 'clean install'
+    publishJUnitResults: true
