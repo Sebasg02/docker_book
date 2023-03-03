@@ -5,15 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: MavenAuthenticate@0
-  inputs:
-    artifactsFeeds: 'maven-repo'
-
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
     goals: 'clean install'
-    publishJUnitResults: true
