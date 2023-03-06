@@ -8,8 +8,10 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-  name: Dev
-  demands: agent.Name -equals Dev
+
+  environment:
+  name: Prueba
+  resourceType: VirtualMachine
 
 steps:
 - task: Maven@3
