@@ -9,8 +9,6 @@ pool:
 jobs:
 - job: Build
   displayName: Build on Ubuntu
-  pool:
-    vmImage: 'ubuntu-latest'
   steps:
   - script: |
       sudo apt-get update
