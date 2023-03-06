@@ -8,6 +8,8 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  name: Dev
+  demands: agent.Name -equals Dev
 
 steps:
 - task: Maven@3
@@ -21,3 +23,5 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
     options: '-DskipTests'
+  
+
