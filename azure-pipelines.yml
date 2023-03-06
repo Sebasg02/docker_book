@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
   environment:
-  name: Prueba
+  name: Dev
   resourceType: VirtualMachine
 
 steps:
