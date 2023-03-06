@@ -20,7 +20,7 @@
 		  <sonar.host.url>
                   http://localhost:9000
                 </sonar.host.url>
-		
+		 <useSystemClassLoader>false</useSystemClassLoader>
 	</properties>
 
 	<dependencies>
