@@ -20,7 +20,8 @@ steps:
 
   # Configurar Cl
   - script: |
-      aws configure --profile myprofile --cli-input-yaml $AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY
+      echo "$AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY" > aws-credentials
+      export AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws-credentials
       
   # Autenticarse en ECR
   - script: |
