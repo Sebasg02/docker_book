@@ -13,8 +13,9 @@ variables:
 steps:
 - script: |
     # Instalar Docker
-    sudo apt-get update
-    sudo apt-get install -y docker.io
+    sudo yum update
+    sudo amazon-linux-extras install docker
+    sudo service docker start
 
     # Construir la imagen Docker
     docker build -t devops .
