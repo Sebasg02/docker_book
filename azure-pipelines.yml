@@ -15,15 +15,15 @@ variables:
 
 # Pasos del pipeline
 steps:
-  # Construir la imagen de Docker
-  - script: |
-      docker build -t devops .
-
-  # Configurar Credenciales
+ # Configurar Credenciales
   - script: |
       echo "$AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY" > aws-credentials
       export AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws-credentials
       aws configure set default.region $AWS_DEFAULT_REGION
+    
+  # Construir la imagen de Docker
+  - script: |
+      docker build -t devops .
       
   # Autenticarse en ECR
   - script: |
