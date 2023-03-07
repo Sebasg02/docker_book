@@ -4,8 +4,6 @@ pool:
   name: 'Dev'
   agents:
   - name: 'eks-preprod'
-# Nombre del pipeline
-name: Docker Image Build and Push
 
 # Variables de entorno
 variables:
@@ -13,7 +11,6 @@ variables:
   AWS_SECRET_ACCESS_KEY: BODLy1x386DmtAZn09i5zAoOpaVvrYPENiTpQ32L
   AWS_DEFAULT_REGION: us-east-1
 
-# Pasos del pipeline
 steps:
  # Configurar Credenciales
   - script: |
@@ -36,5 +33,5 @@ steps:
 
   # Borrar la imagen de Docker
   - script: |
-      docker rmi my-image:latest
+      docker rmi devops:latest
 
