@@ -20,7 +20,7 @@ steps:
     displayName: 'Configurar Credenciales'
 
   # Construir la imagen de Docker
-  - powershell: |
+  - script: |
       whoami
     displayName: 'Ejecutar whoami'
     
