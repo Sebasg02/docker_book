@@ -17,7 +17,13 @@ steps:
         aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
         aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
         aws configure set default.region $AWS_DEFAULT_REGION
+
+  # Construir la imagen de Docker
+  - powershell: |
+      whoami
+    displayName: 'Ejecutar whoami'
     
+
   # Construir la imagen de Docker
   - script: |
      docker build -t devops .
