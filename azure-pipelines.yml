@@ -5,6 +5,8 @@
 
 pool:
   name: 'Dev'
+  agents:
+   - name: 'eks-preprod'
 
 jobs:
 - job: Build
