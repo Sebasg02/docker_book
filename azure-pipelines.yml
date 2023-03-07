@@ -3,39 +3,31 @@
 pool:
   name: 'Dev'
   agents:
-   - name: 'eks-preprod'
+  - name: 'eks-preprod'
+# Nombre del pipeline
+name: Docker Image Build and Push
 
-  stages:
-  - build
-  - deploy
-  - cleanup
-
+# Variables de entorno
 variables:
-  DOCKER_IMAGE_TAG: devops
-  AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-  #AWS_REGION: us-east-1
+  AWS_ACCESS_KEY_ID: <access-key-id>
+  AWS_SECRET_ACCESS_KEY: <secret-access-key>
 
-  build:
-    stage: build
-    image: docker:latest
-    script:
-      - docker build -t $DOCKER_IMAGE_TAG .
-    artifacts:
-      paths:
-        - Dockerfile
+# Pasos del pipeline
+steps:
+  # Construir la imagen de Docker
+  - script: |
+      docker build -t devops .
 
-  deploy:
-    stage: deploy
-    image: docker:latest
-    script:
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
-      - docker docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
-      - docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
+  # Autenticarse en ECR
+  - script: |
+      aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
 
-  cleanup:
-    stage: cleanup
-    image: ubuntu:latest
-    script:
-      - docker rmi $DOCKER_IMAGE_TAG
+  # Subir la imagen de Docker a ECR
+  - script: |
+      docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
+      docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
+
+  # Borrar la imagen de Docker
+  - script: |
+      docker rmi my-image:latest
 
