@@ -1,40 +1,41 @@
 
+
 pool:
   name: 'Dev'
   agents:
    - name: 'eks-preprod'
 
+  stages:
+  - build
+  - deploy
+  - cleanup
+
 variables:
-  awsRegion: 'us-east-1'
-  ecrRepo: 'my-ecr-repo'
-  dockerImage: 'devops'
+  DOCKER_IMAGE_TAG: devops
+  AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
+  #AWS_REGION: us-east-1
 
-# Pasos del pipeline
-steps:
-- script: |
-    # Instalar Docker
-    sudo yum update
-    sudo amazon-linux-extras install docker
-    sudo service docker start
+  build:
+    stage: build
+    image: docker:latest
+    script:
+      - docker build -t $DOCKER_IMAGE_TAG .
+    artifacts:
+      paths:
+        - Dockerfile
 
-    # Construir la imagen Docker
-    docker build -t devops .
+  deploy:
+    stage: deploy
+    image: docker:latest
+    script:
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
+      - docker docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
+      - docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
 
-    # Configurar las credenciales de AWS
-    echo "$AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY" > aws-credentials
-    export AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws-credentials
-
-    # Iniciar sesión en ECR y etiquetar la imagen
-    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
-    docker docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
-
-    # Subir la imagen a ECR
-    docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
-
-    # Borrar la imagen local
-    docker rmi devops
-  env:
-    AWS_ACCESS_KEY_ID: AKIA5VJLYRITMXVVFLVS
-    AWS_SECRET_ACCESS_KEY: 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
-  displayName: 'Construir imagen Docker y subirla a ECR'
+  cleanup:
+    stage: cleanup
+    image: ubuntu:latest
+    script:
+      - docker rmi $DOCKER_IMAGE_TAG
 
