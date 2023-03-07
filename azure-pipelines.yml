@@ -20,17 +20,14 @@ steps:
 
   # Autenticarse en ECR
   - script: |
-      displayName: 'Autenticarse en ECR'
       aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
 
   # Subir la imagen de Docker a ECR
   - script: |
-      displayName: 'Subir la imagen de Docker a ECR'
       docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
       docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
 
   # Borrar la imagen de Docker
   - script: |
-      displayName: 'Borrar la imagen de Docker'
       docker rmi my-image:latest
 
