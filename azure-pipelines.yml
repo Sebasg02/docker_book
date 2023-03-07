@@ -17,18 +17,17 @@ variables:
 steps:
  # Configurar Credenciales
   - script: |
-      echo "$AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY" > aws-credentials
-      export AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws-credentials
-      aws configure set default.region $AWS_DEFAULT_REGION
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        aws configure set default.region $AWS_DEFAULT_REGION
     
   # Construir la imagen de Docker
   - script: |
-      docker build -t devops .
+     docker build -t devops .
       
   # Autenticarse en ECR
   - script: |
-      aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-      aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+      aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
 
   # Subir la imagen de Docker a ECR
   - script: |
