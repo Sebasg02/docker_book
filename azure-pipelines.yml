@@ -1,21 +1,39 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 pool:
   name: 'Dev'
   agents:
    - name: 'eks-preprod'
 
-jobs:
-- job: Build
-  displayName: Build on Ubuntu
-  steps:
-  - script: |
-      sudo apt-get update
-      sudo apt-get install -y maven
-      mvn clean package -DskipTests
-      hostname
+variables:
+  awsRegion: 'us-east-1'
+  ecrRepo: 'my-ecr-repo'
+  dockerImage: 'devops'
 
+# Pasos del pipeline
+steps:
+- script: |
+    # Instalar Docker
+    sudo apt-get update
+    sudo apt-get install -y docker.io
+
+    # Construir la imagen Docker
+    docker build -t devops .
+
+    # Configurar las credenciales de AWS
+    echo "$AWS_ACCESS_KEY_ID\n$AWS_SECRET_ACCESS_KEY" > aws-credentials
+    export AWS_SHARED_CREDENTIALS_FILE=$(pwd)/aws-credentials
+
+    # Iniciar sesión en ECR y etiquetar la imagen
+    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
+    docker docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
+
+    # Subir la imagen a ECR
+    docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
+
+    # Borrar la imagen local
+    docker rmi $devops
+  env:
+    AWS_ACCESS_KEY_ID: AKIA5VJLYRITMXVVFLVS
+    AWS_SECRET_ACCESS_KEY: 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
+  displayName: 'Construir imagen Docker y subirla a ECR'
 
