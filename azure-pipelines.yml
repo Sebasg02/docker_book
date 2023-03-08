@@ -4,13 +4,11 @@ pool:
   - name: 'eks-preprod'
 
 services:
-  myapp:
-    build:
+  app:
+    build: 
       context: .
       dockerfile: Dockerfile
-    image: devops:latest
-    deploy:
-      replicas: 1
+    image: devops
 
 # Variables de entorno
 variables:
