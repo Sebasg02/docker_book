@@ -3,7 +3,7 @@ pool:
   agents:
   - name: 'eks-preprod'
 
-services:
+  services:
   myapp:
     build: 
       context: .
