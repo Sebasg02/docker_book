@@ -11,6 +11,14 @@ variables:
   AWS_SECRET_ACCESS_KEY: 'BODLy1x386DmtAZn09i5zAoOpaVvrYPENiTpQ32L'
   AWS_DEFAULT_REGION: 'us-east-1'
 
+services:
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: devops:latest
+    deploy:
+      replicas: 1
 steps:
  # Configurar Credenciales
   - script: |
@@ -23,7 +31,6 @@ steps:
   - script: |
       whoami
     displayName: 'Ejecutar whoami'
-    
 
   # Construir la imagen de Docker
   - script: |
