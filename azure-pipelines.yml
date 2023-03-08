@@ -3,12 +3,6 @@ pool:
   agents:
   - name: 'eks-preprod'
 
-# Variables de entorno
-variables:
-  AWS_ACCESS_KEY_ID: 'AKIA5VJLYRITMXVVFLVS'
-  AWS_SECRET_ACCESS_KEY: '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'
-  AWS_DEFAULT_REGION: 'us-east-1'
-
 services:
   myapp:
     build:
@@ -17,6 +11,12 @@ services:
     image: devops:latest
     deploy:
       replicas: 1
+
+# Variables de entorno
+variables:
+  AWS_ACCESS_KEY_ID: 'AKIA5VJLYRITMXVVFLVS'
+  AWS_SECRET_ACCESS_KEY: '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'
+  AWS_DEFAULT_REGION: 'us-east-1'
 
 steps:
 
