@@ -1,7 +1,3 @@
-pool:
-  name: 'Dev'
-  agents:
-  - name: 'eks-preprod'
 
 services:
   app:
@@ -9,6 +5,11 @@ services:
       context: .
       dockerfile: Dockerfile
     image: devops
+
+pool:
+  name: 'Dev'
+  agents:
+  - name: 'eks-preprod'
 
 # Variables de entorno
 variables:
