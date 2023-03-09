@@ -47,13 +47,13 @@ steps:
           exit 1
         fi        
                 
-        docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$CI_PIPELINE_ID
+        docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$Build.BuildNumber
         if [[ $? -ne 0 ]]; then
           echo "error "
           exit 1
         fi  
 
-        docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$CI_PIPELINE_ID
+        docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$Build.BuildNumber
         if [[ $? -ne 0 ]]; then
           echo "error "
           exit 1
