@@ -7,7 +7,7 @@ variables:
   AWS_ACCESS_KEY_ID: AKIA5VJLYRITMXVVFLVS
   AWS_SECRET_ACCESS_KEY: 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
   AWS_DEFAULT_REGION: us-east-1
-  Build.BuildNumber: 'Build.BuildNumber'
+  Build.BuildNumber: Build.BuildNumber
 
 
 steps:
