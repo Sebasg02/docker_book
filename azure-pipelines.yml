@@ -60,7 +60,7 @@ steps:
           exit 1
         fi                         
 
-        docker rmi devops:$(Build.BuildNumber)                  
+        docker rmi devops:latest                  
         if [[ $? -ne 0 ]]; then
           echo "error  docker rmi devops:latest"
           exit 1
