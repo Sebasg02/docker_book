@@ -12,15 +12,6 @@ steps:
 
   - script: |
         mvn -version
-        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-        aws configure set default.region $AWS_DEFAULT_REGION
-        sudo docker build -t devops .
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
-        docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
-        docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
-        docker rmi devops:latest
-
         salida=$(echo $?)
         if [[ $salida -eq 0 ]]; then
           aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
@@ -68,7 +59,7 @@ steps:
             else
              echo "Uno o más comandos fallaron. Deteniendo la ejecución."
             fi
-             exit 1
+            exit 1
           else
             echo "Uno o más comandos fallaron. Deteniendo la ejecución."
           fi
