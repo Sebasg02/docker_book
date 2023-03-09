@@ -20,10 +20,10 @@ steps:
               aws configure set default.region $AWS_DEFAULT_REGION
               salida=$(echo $?)
               if [[ $salida -eq 0 ]]; then
-                sudo docker build -t devops .
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
                 salida=$(echo $?)
                 if [[ $salida -eq 0 ]]; then
-                  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
+                  sudo docker build -t devops .
                   salida=$(echo $?)
                   if [[ $salida -eq 0 ]]; then
                     docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
