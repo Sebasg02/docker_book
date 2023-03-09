@@ -21,9 +21,11 @@ steps:
         docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
         docker rmi devops:latest
 
-  # Construir la imagen de Docker
-  - script: |
-      whoami
-    displayName: 'Ejecutar whoami'
+  -  script: |
+      salida=$(echo $?)
+      if [[ $salida -ne 0 ]]; then
+        echo "Uno o más comandos fallaron. Deteniendo la ejecución."
+        exit 1
+      fi
 
 
