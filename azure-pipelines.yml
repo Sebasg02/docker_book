@@ -7,7 +7,6 @@ variables:
   AWS_ACCESS_KEY_ID: AKIA5VJLYRITMXVVFLVS
   AWS_SECRET_ACCESS_KEY: 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
   AWS_DEFAULT_REGION: us-east-1
-  Build.BuildNumber: Build.BuildNumber
 
 
 steps:
@@ -49,21 +48,21 @@ steps:
           exit 1
         fi        
                 
-        docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$Build.BuildNumber
+        docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$(Build.BuildNumber)
         if [[ $? -ne 0 ]]; then
-          echo "error docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$Build.BuildNumber"
+          echo "error docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$(Build.BuildNumber)"
           exit 1
         fi  
 
-        docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$Build.BuildNumber
+        docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$(Build.BuildNumber)
         if [[ $? -ne 0 ]]; then
-          echo "error docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$Build.BuildNumber"
+          echo "error docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$(Build.BuildNumber)"
           exit 1
         fi                         
 
         docker rmi devops:latest                  
         if [[ $? -ne 0 ]]; then
-          echo "error  docker rmi devops:latest                  "
+          echo "error  docker rmi devops:latest"
           exit 1
         fi  
 
