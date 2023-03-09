@@ -6,68 +6,63 @@ pool:
 variables:
   AWS_ACCESS_KEY_ID: AKIA5VJLYRITMXVVFLVS
   AWS_SECRET_ACCESS_KEY: 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
-  AWS_DEFAULT_REGION: us-east-12
+  AWS_DEFAULT_REGION: us-east-1
 
 
 steps:
 
   - script: |
-          mvn clean package -DskipTests
-          salida=$(echo $?)
-          if [[ $salida -eq 0 ]]; then
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            salida=$(echo $?)
-            if [[ $salida -eq 0 ]]; then
-              aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-              salida=$(echo $?)
-              if [[ $salida -eq 0 ]]; then
-                aws configure set default.region $AWS_DEFAULT_REGION
-                salida=$(echo $?)
-                if [[ $salida -eq 0 ]]; then
-                docker build -t devops .
-                  salida=$(echo $?)
-                  if [[ $salida -eq 0 ]]; then
-                  aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
-                    salida=$(echo $?)
-                    if [[ $salida -eq 0 ]]; then
-                      docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
-                      salida=$(echo $?)
-                      if [[ $salida -eq 0 ]]; then
-                        docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:latest
-                        salida=$(echo $?)
-                        if [[ $salida -eq 0 ]]; then
-                          docker rmi devops:latest
-                        else
-                          echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-                        fi
-                        exit 1
-                      else
-                        echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-                      fi
-                      exit 1
-                    else
-                      echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-                    fi
-                    exit 1
-                  else
-                    echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-                  fi
-                  exit 1
-                else
-                  echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-                fi
-                exit 1
-              else
-              echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-              fi
-              exit 1
-            else
-              echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-            fi
-            exit 1
-           else
-            echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-          fi
+        mvn clean package -DskipTests
+        if [[ $? -ne 0 ]]; then
+          echo "error mvn clean package -DskipTests"
           exit 1
+        fi
+
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi
+
+        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi       
+        aws configure set default.region $AWS_DEFAULT_REGION
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi 
+
+        docker build -t devops .
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi               
+        
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 939079010854.dkr.ecr.us-east-1.amazonaws.com
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi        
+                
+        docker tag devops:latest 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$CI_PIPELINE_ID
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi  
+
+        docker push 939079010854.dkr.ecr.us-east-1.amazonaws.com/devops:$CI_PIPELINE_ID
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi                         
+
+        docker rmi devops:latest                  
+        if [[ $? -ne 0 ]]; then
+          echo "error "
+          exit 1
+        fi  
 
 
