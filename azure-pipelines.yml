@@ -11,9 +11,6 @@ variables:
 steps:
 
   - script: |
-        mvn -version
-        salida=$(echo $?)
-        if [[ $salida -eq 0 ]]; then
           aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
           salida=$(echo $?)
           if [[ $salida -eq 0 ]]; then
@@ -64,9 +61,5 @@ steps:
             echo "Uno o más comandos fallaron. Deteniendo la ejecución."
           fi
           exit 1
-        else
-          echo "Uno o más comandos fallaron. Deteniendo la ejecución."
-        fi
-        exit 1
 
 
