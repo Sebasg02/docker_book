@@ -72,4 +72,10 @@ steps:
           exit 1
         fi 
 
+        kubectl apply -f manifiestos/deploy-rest-service.yaml
+        if [[ $? -ne 0 ]]; then
+          echo "error en el comando kubectl"
+          exit 1
+        fi 
+
 
