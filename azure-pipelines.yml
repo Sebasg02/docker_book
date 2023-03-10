@@ -72,7 +72,7 @@ steps:
           exit 1
         fi 
 
-        sudo kubectl apply -f ~/docker_book/manifiestos/deploy-rest-service.yaml
+        kubectl apply -f ~/docker_book/manifiestos/deploy-rest-service.yaml
         if [[ $? -ne 0 ]]; then
           echo "error en el comando kubectl"
           exit 1
