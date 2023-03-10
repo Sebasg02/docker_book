@@ -66,7 +66,7 @@ steps:
           exit 1
         fi  
         
-        sudo sed -i '26c\image: new_image_name' ~/docker_book/manifiestos/deploy-rest-service.yaml
+        sudo sed -i '26c\image: devops:$(Build.BuildNumber)' ~/docker_book/manifiestos/deploy-rest-service.yaml
         if [[ $? -ne 0 ]]; then
           echo "error en el comando sed"
           exit 1
