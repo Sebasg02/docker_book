@@ -65,5 +65,11 @@ steps:
           echo "error  docker rmi devops:latest"
           exit 1
         fi  
+        
+        sudo sed -i '26c\image: new_image_name' /manifiestos/deploy-rest-service.yaml
+        if [[ $? -ne 0 ]]; then
+          echo "error en el comando sed"
+          exit 1
+        fi 
 
 
