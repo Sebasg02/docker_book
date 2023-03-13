@@ -78,7 +78,7 @@ steps:
           exit 1
         fi 
 
-        command: ["sleep", "30"]
+        sleep 30
         kubectl get po -n docker-book
         if [[ $? -ne 0 ]]; then
           echo "error en el comando kubectl get po"
